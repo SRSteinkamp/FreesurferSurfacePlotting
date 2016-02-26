@@ -12,3 +12,7 @@ This was created during the 2016 Brainhack in Paris, where I run into some issue
 * Plot the mesh 
 * Extract different fsaverage surfaces for visualization
 * Small example of nilearns plotting functions
+
+## Might be added later
+* loading meshes using nibabel form .gii, not using the vtk functions work around
+* a nipype implementation (for python 3.4+), so that there is no need for using freesurfer seperately
