@@ -1,6 +1,6 @@
 # FreesurferSurfacePlotting
 
-This repositry basically hosts only a single ipython notebook, which is supposed to act as a basic tutorial for using freesurfer for surface extraction. As I do not own any rights regarding any of the functions nor data, please relate to the provided links and instructions which you can find there. 
+This ipython notebook is supposed to act as a basic tutorial for using freesurfer for surface extraction. As I do not own any rights regarding any of the functions nor data, please relate to the provided links and instructions which you can find there. 
 Please refer to https://github.com/juhuntenburg
 
 ## Introduction
