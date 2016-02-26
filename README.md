@@ -4,7 +4,7 @@ This ipython notebook is supposed to act as a basic tutorial for using freesurfe
 Please refer to for more informtaion to: https://github.com/juhuntenburg
 
 ## Introduction
-This was created during the 2016 Brainhack in Paris, where I run into some issues with projecting statistical volume maps from fMRI analysis onto brain surfaces. The initial goal was to provide an example for the nilearn plot_surf_stat_map function using simple statistical maps in MNI space. This was more complex than expected, so this tutorial was created for those who just want to plot their brain analysis results onto a pretty surface. 
+This was created during the 2016 Brainhack in Paris, where I run into some issues with projecting statistical volume maps from fMRI analysis onto brain surfaces. The initial goal was to provide an example for the nilearn plot_surf_stat_map function using simple statistical maps in MNI space. This was more complex than expected, so this tutorial was created for those who just want to plot their analysis results onto a pretty surface. 
 
 ## Scope of the tutorial
 * Register your T1 map onto fsaverage
