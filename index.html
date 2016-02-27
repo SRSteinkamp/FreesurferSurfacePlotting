@@ -1,35 +1,26 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta charset="UTF-8">
     <title>Creating Surface Meshes with Freesurfer and Python by SRSteinkamp</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Creating Surface Meshes with Freesurfer and Python</h1>
-        <p>freesurfer surface mri_surf2vol mni-space statistical map</p>
+    <section class="page-header">
+      <h1 class="project-name">Creating Surface Meshes with Freesurfer and Python</h1>
+      <h2 class="project-tagline">freesurfer surface mri_surf2vol mni-space statistical map</h2>
+      <a href="https://github.com/SRSteinkamp/PlottingSurfacesWithFreesurferAndPython" class="btn">View on GitHub</a>
+      <a href="https://github.com/SRSteinkamp/PlottingSurfacesWithFreesurferAndPython/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/SRSteinkamp/PlottingSurfacesWithFreesurferAndPython/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-        <p class="view"><a href="https://github.com/SRSteinkamp/PlottingSurfacesWithFreesurferAndPython">View the Project on GitHub <small>SRSteinkamp/PlottingSurfacesWithFreesurferAndPython</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/SRSteinkamp/PlottingSurfacesWithFreesurferAndPython/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/SRSteinkamp/PlottingSurfacesWithFreesurferAndPython/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/SRSteinkamp/PlottingSurfacesWithFreesurferAndPython">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
-<a id="freesurfersurfaceplotting" class="anchor" href="#freesurfersurfaceplotting" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>FreesurferSurfacePlotting</h1>
+    <section class="main-content">
+      <h1>
+<a id="creating-surface-meshes-with-freesurfer-and-python" class="anchor" href="#creating-surface-meshes-with-freesurfer-and-python" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating Surface Meshes with Freesurfer and Python</h1>
 
 <p>This ipython notebook is supposed to act as a basic tutorial for using freesurfer for surface extraction. As I do not own any rights regarding any of the functions nor data, please relate to the provided links and instructions which you can find there. 
 Please refer for more information with regards to plotting to: <a href="https://github.com/juhuntenburg">https://github.com/juhuntenburg</a></p>
@@ -59,13 +50,192 @@ Please refer for more information with regards to plotting to: <a href="https://
 <li>loading meshes using nibabel form .gii, not using the vtk functions work around</li>
 <li>a nipype implementation (for python 3.4+), so that there is no need for using freesurfer seperately</li>
 </ul>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/SRSteinkamp">SRSteinkamp</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+
+<h1>
+<a id="short-tutorial-to-prepare-surfaces-for-nilearns-plot_surf_stat_map-using-freesurfer" class="anchor" href="#short-tutorial-to-prepare-surfaces-for-nilearns-plot_surf_stat_map-using-freesurfer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Short Tutorial to Prepare Surfaces for nilearn's plot_surf_stat_map using Freesurfer</h1>
+
+<h2>
+<a id="things-you-have-to-do-in-freesurfer-to-get-to-surface-data" class="anchor" href="#things-you-have-to-do-in-freesurfer-to-get-to-surface-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Things you have to do in Freesurfer to get to surface data</h2>
+
+<p>This is a small very un-pythonic tutorial for creating surface meshes of your statistical fMRI maps using the freesurfer suite. And plotting them using nilearn. Although the nipype package provides a good interface for all the common neuroimaging and analysis toolboxes, you might not be able to use it (e.g. there is no python3 support, yet).</p>
+
+<p>Freesurfer should be able to output surface files in gifti format, however nibabel seems not to recognize these files. Therefore the .vtk output format will be used, which has the advantage that it can easily be transformed to file formats used with common 3D applications. </p>
+
+<p>I do not provide the data used for this example here, however the results should be easily replicable and you basically need only one extra file. This example is only tested for the right hemisphere and the fsaverage, other subjects and hemispheres should be possible. </p>
+
+<p>The most easiest way so far seems to use the vtk functions from the brainsurfacescripts collection: 
+<a href="https://github.com/juhuntenburg/brainsurfacescripts">https://github.com/juhuntenburg/brainsurfacescripts</a></p>
+
+<p>The statistical map for this example is from neurovault.org:
+<a href="http://neurovault.org/collections/723/">http://neurovault.org/collections/723/</a></p>
+
+<p>And corresponds to the following paper: 
+<a href="http://journal.frontiersin.org/article/10.3389/fnins.2014.00308/abstract">http://journal.frontiersin.org/article/10.3389/fnins.2014.00308/abstract</a></p>
+
+<p>Note: 
+This is already an example of the hopefully soon to come nilearn.plotting.plot_surf_stat_map function. More documentation and the nilearn git-hub forge containing the function can be found at <a href="https://github.com/juhuntenburg/">https://github.com/juhuntenburg/</a>, furthermore it is assumed that you have a working version of freesurfer on your system.</p>
+
+<p>Software and packages used:</p>
+
+<ul>
+<li><a href="http://freesurfer.net/">http://freesurfer.net/</a></li>
+<li><a href="https://nilearn.github.io/">https://nilearn.github.io/</a></li>
+<li><a href="http://nipy.org/nibabel/">http://nipy.org/nibabel/</a></li>
+<li><a href="http://stanford.edu/%7Emwaskom/software/seaborn/">http://stanford.edu/~mwaskom/software/seaborn/</a></li>
+</ul>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-c"># Load the necessary packages</span>
+<span class="pl-k">%</span>matplotlib inline 
+<span class="pl-k">import</span> nibabel <span class="pl-k">as</span> nb <span class="pl-c"># Nibabel for loading in imaging data</span>
+<span class="pl-k">from</span> nilearn <span class="pl-k">import</span> plotting <span class="pl-c"># Nilearn .plotting for all the nice plots</span>
+
+<span class="pl-c"># Data directory, adjust accordingly</span>
+data_dir <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>/media/all_data/BRAINHACK/SurfacePlotting/<span class="pl-pds">'</span></span>
+
+<span class="pl-c"># The name of the statistical map</span>
+stat_map_file <span class="pl-k">=</span> data_dir  <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>/spmT_0001_HEminLE.nii.gz<span class="pl-pds">'</span></span>
+stat_map <span class="pl-k">=</span> nb.load(stat_map_file)
+
+<span class="pl-c"># Plot an unthresholded map of your file</span>
+plot <span class="pl-k">=</span> plotting.plot_stat_map(stat_map)</pre></div>
+
+<pre><code>/usr/lib/python3/dist-packages/matplotlib/collections.py:571: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str('face'):
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/SRSteinkamp/PlottingSurfacesWithFreesurferAndPython/master/page/output_2_1.png" alt=""></p>
+
+<h3>
+<a id="preparing-statistical-map" class="anchor" href="#preparing-statistical-map" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Preparing Statistical Map</h3>
+
+<p>In a first step you have to register your statistical map onto your subject. This is done by mri_vol2surf.</p>
+
+<pre><code>mri_vol2surf --src $YOUR_DIR/YOUR_STATMAP.nii --hemi rh  --float2int round --o YOUR_STATMAP_OUT.mgz --projfrac 0.5 --trgsubject fsaverage --regheader fsaverage  
+</code></pre>
+
+<p>In this example the T-map in MNI space is mapped onto the right hemisphere of the fsaverage subject. </p>
+
+<ul>
+<li>--src is the source file, your statistical map</li>
+<li>--hemi defines the hemisphere rh for right, lh for left</li>
+<li>--o defines the output file and output directory, output is by default into source directory</li>
+<li>--trgsubject defines the subject onto which the statistical map should be registered, uses your SUBJECTS_DIR directory by default</li>
+<li>--regheader uses the subject header for registration information</li>
+<li><p>--projfrac from the freesurfer documentation: "fraction (0,1) of the cortical thickness at each vertex to project along the surface normal. Default=0. When set at 0.5 with the white surface, this should sample in the middle of the cortical surface. This requires that a ?h.thickness file exist for the source subject. Note, the faction can be less than zero, in which case it will project into the white matter. See also --projdist."</p></li>
+<li><p>--float2int from freesurfer documentation: "Override float2int method in registration file. See BUGS." </p></li>
+</ul>
+
+<p>The new surface file needs to be transformed into ascii. The vtk file format is the format of choice here. As mri_vol2surf outputs a 1 dimensional curvature file, you also need to add a surface file which provides the coordinates for each value. </p>
+
+<pre><code>mris_convert -c $YOUR_DIR/YOUR_STATMAP_OUT.mgz $FREESURFER_HOME/subjects/fsaverage/surf/rh.orig  $YOUR_DIR/YOUR_STATMAP_OUT.vtk
+</code></pre>
+
+<p>The first and last entry are as above, the second entry defines the reference surface onto which the statistical map was projected. Freesurfer adds a 'rh.' or 'lh.' automatically to the beginning of the file, depending on what hemisphere you extracted if you use the --c flag.</p>
+
+<h2>
+<a id="loading-the-data-using-the-vtk_tools" class="anchor" href="#loading-the-data-using-the-vtk_tools" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Loading the data using the vtk_tools</h2>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">from</span> vtk_rw <span class="pl-k">import</span> read_vtk
+
+rh_stat <span class="pl-k">=</span> data_dir <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>rh.stat_map.vtk<span class="pl-pds">'</span></span>
+
+vertices_stat, faces_stat, data_stat <span class="pl-k">=</span> read_vtk(rh_stat)
+
+mesh_stat <span class="pl-k">=</span> {<span class="pl-s"><span class="pl-pds">'</span>coords<span class="pl-pds">'</span></span>:vertices_stat, <span class="pl-s"><span class="pl-pds">'</span>faces<span class="pl-pds">'</span></span>:faces_stat}
+</pre></div>
+
+<h2>
+<a id="plot-original-surface" class="anchor" href="#plot-original-surface" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Plot original surface:</h2>
+
+<p>The basic information for the meshes is already in file exported by freesurfer. </p>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">import</span> seaborn <span class="pl-k">as</span> sns
+<span class="pl-k">from</span> nilearn <span class="pl-k">import</span> plotting
+sns.set_style(<span class="pl-s"><span class="pl-pds">'</span>white<span class="pl-pds">'</span></span>)
+sns.set_context(<span class="pl-s"><span class="pl-pds">'</span>poster<span class="pl-pds">'</span></span>)
+
+plot <span class="pl-k">=</span> plotting.plot_surf_stat_map(mesh_stat, <span class="pl-s"><span class="pl-pds">'</span>rh<span class="pl-pds">'</span></span>, <span class="pl-v">figsize</span> <span class="pl-k">=</span> (<span class="pl-c1">15</span>, <span class="pl-c1">10</span>))
+
+</pre></div>
+
+<pre><code>/usr/lib/python3/dist-packages/matplotlib/collections.py:571: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str('face'):
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/SRSteinkamp/PlottingSurfacesWithFreesurferAndPython/master/page/output_7_1.png" alt=""></p>
+
+<h2>
+<a id="adding-the-statistical-map" class="anchor" href="#adding-the-statistical-map" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Adding the statistical map</h2>
+
+<p>As you can see the value for the faces is also provided in the surfaces file.</p>
+
+<div class="highlight highlight-source-python"><pre>plot <span class="pl-k">=</span> plotting.plot_surf_stat_map(mesh_stat, <span class="pl-s"><span class="pl-pds">'</span>rh<span class="pl-pds">'</span></span> ,<span class="pl-v">stat_map</span> <span class="pl-k">=</span> data_stat, <span class="pl-v">threshold</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>,  <span class="pl-v">figsize</span> <span class="pl-k">=</span> (<span class="pl-c1">15</span>, <span class="pl-c1">10</span>))</pre></div>
+
+<pre><code>/usr/lib/python3/dist-packages/matplotlib/collections.py:571: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str('face'):
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/SRSteinkamp/PlottingSurfacesWithFreesurferAndPython/master/page/output_9_1.png" alt=""></p>
+
+<h2>
+<a id="getting-curvature-data" class="anchor" href="#getting-curvature-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Curvature data:</h2>
+
+<p>To extract the curvature file of the average subject you basically need to run a similiar command as for the extraction of the surface data of the statitical map.</p>
+
+<pre><code>mris_convert -c $FREESURFER_HOME/subjects/fsaverage/surf/rh.curv $FREESURFER_HOME/subjects/fsaverage/surf/rh.orig  $YOUR_DIR/YOUR_CURVATURE_OUT.vtk
+</code></pre>
+
+<div class="highlight highlight-source-python"><pre>rh_curv <span class="pl-k">=</span> data_dir <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>rh.rh_curvature.vtk<span class="pl-pds">'</span></span>
+
+vertices_curv, faces_curv, data_curv <span class="pl-k">=</span> read_vtk(rh_curv) 
+<span class="pl-c"># We only need the data for the curvature</span>
+
+plot <span class="pl-k">=</span> plotting.plot_surf_stat_map(mesh_stat, <span class="pl-s"><span class="pl-pds">'</span>rh<span class="pl-pds">'</span></span> ,<span class="pl-v">stat_map</span> <span class="pl-k">=</span> data_stat, <span class="pl-v">bg_map</span> <span class="pl-k">=</span> data_curv, <span class="pl-v">threshold</span> <span class="pl-k">=</span> <span class="pl-c1">1</span>,  <span class="pl-v">figsize</span> <span class="pl-k">=</span> (<span class="pl-c1">15</span>, <span class="pl-c1">10</span>))
+</pre></div>
+
+<pre><code>/usr/lib/python3/dist-packages/matplotlib/collections.py:571: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str('face'):
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/SRSteinkamp/PlottingSurfacesWithFreesurferAndPython/master/page/output_12_1.png" alt=""></p>
+
+<h2>
+<a id="plotting-on-the-inflated-surface" class="anchor" href="#plotting-on-the-inflated-surface" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Plotting on the inflated surface</h2>
+
+<p>You can also extract the inflated brain mesh of the subject:</p>
+
+<pre><code>mris_convert  $FREESURFER_HOME/subjects/fsaverage/surf/rh.inflated  $YOUR_DIR/YOUR_INFLATED_OUT.vtk
+</code></pre>
+
+<div class="highlight highlight-source-python"><pre>rh_inflated <span class="pl-k">=</span> data_dir <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>rh_inflated.vtk<span class="pl-pds">'</span></span>
+
+vertices_inflated, faces_inflated, data_inflated <span class="pl-k">=</span> read_vtk(rh_inflated)
+
+mesh_inflated <span class="pl-k">=</span> {<span class="pl-s"><span class="pl-pds">'</span>coords<span class="pl-pds">'</span></span>:vertices_inflated, <span class="pl-s"><span class="pl-pds">'</span>faces<span class="pl-pds">'</span></span>:faces_inflated}
+</pre></div>
+
+<div class="highlight highlight-source-python"><pre>plot <span class="pl-k">=</span> plotting.plot_surf_stat_map(mesh_inflated, <span class="pl-s"><span class="pl-pds">'</span>rh<span class="pl-pds">'</span></span> ,<span class="pl-v">stat_map</span> <span class="pl-k">=</span> data_stat, <span class="pl-v">bg_map</span> <span class="pl-k">=</span> data_curv, <span class="pl-v">threshold</span> <span class="pl-k">=</span> <span class="pl-c1">1</span>,  <span class="pl-v">figsize</span> <span class="pl-k">=</span> (<span class="pl-c1">15</span>, <span class="pl-c1">10</span>))
+</pre></div>
+
+<pre><code>/usr/lib/python3/dist-packages/matplotlib/collections.py:571: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str('face'):
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/SRSteinkamp/PlottingSurfacesWithFreesurferAndPython/master/page/output_15_1.png" alt=""></p>
+
+<h2>
+<a id="polygon-reduction" class="anchor" href="#polygon-reduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Polygon reduction</h2>
+
+<p>A note of caution here: the extracted meshes are very detailed and take a long time to render, so you might want to decrease the number of polygons. This can be done with some free-software. Meshlabs and Blender3D being the most obivous choices. </p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/SRSteinkamp/PlottingSurfacesWithFreesurferAndPython">Creating Surface Meshes with Freesurfer and Python</a> is maintained by <a href="https://github.com/SRSteinkamp">SRSteinkamp</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
+
+    </section>
+
+  
   </body>
 </html>
